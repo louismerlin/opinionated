@@ -1,0 +1,16 @@
+mobile_app:
+  nginx:
+    build: ./nginx
+    depends_on:
+     - mobile
+     - server
+    ports:
+     - "8080:80"
+  mobile:
+    build: ./opiniated/app
+    ports:
+     - "8080"
+  server:
+    build: ./server
+    ports:
+     - "8080"
