@@ -1,5 +1,5 @@
 class DiscussionApp < Sinatra::Base
-  get '/discussion' do
+  get '/discussions' do
     "Hello World".to_json
   end
 end
