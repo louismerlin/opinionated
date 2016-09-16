@@ -2,6 +2,7 @@
 require 'sinatra/base'
 require 'sequel'
 require 'json'
+require 'bcrypt'
 
 require './models'
 require './users'
