@@ -1,16 +1,21 @@
-mobile_app:
+version: '2'
+services:
+  
   nginx:
     build: ./nginx
     depends_on:
-     - mobile
-     - server
+      - server
     ports:
-     - "8080:80"
-  mobile:
-    build: ./opiniated/app
+      - "8080:80"
+
+  api:
+    build: ./api
     ports:
-     - "8080"
-  server:
-    build: ./server
+      - "8080"
+    depends_on:
+      - db
+
+  db:
+    build: ./db
     ports:
-     - "8080"
+      - "5432"
