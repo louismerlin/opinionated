@@ -1,17 +1,17 @@
 version: '2'
 services:
-  
+
   nginx:
     build: ./nginx
     depends_on:
-      - server
+      - api
     ports:
-      - "8080:80"
+      - "8080:8080"
 
   api:
     build: ./api
     ports:
-      - "8080"
+      - "4567"
     depends_on:
       - db
 
