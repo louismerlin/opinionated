@@ -5,10 +5,17 @@ require 'json'
 require 'bcrypt'
 
 require './models'
+require './helpers'
 require './users'
 require './discussions'
 
 class Routes < Sinatra::Base
+  post '/login' do
+  end
+
+  post '/signup' do
+  end
+
   get('/users*') { UserApp.call(env) }
   get ('/discussions*') { DiscussionApp.call(env) }
 
