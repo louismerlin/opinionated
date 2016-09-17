@@ -50,7 +50,8 @@ var LoginPage = {
         m('button.u-full-width', {
           onclick: ctrl.login
         }, "Log in"),
-        m('a.button.u-full-width', {href: '/#/signup'
+        m('button.u-full-width', {
+          onclick: ctrl.signup
         }, "Sign up")
       ])])
   }
