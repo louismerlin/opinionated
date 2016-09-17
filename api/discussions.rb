@@ -17,8 +17,9 @@ class DiscussionApp < Sinatra::Base
     @data = JSON.parse(request.body.read)
     @users = @data['users']
     if @users
+      @existing = Discussion.where(@users.map{|u| User[u.to_s]}.push(this_user).map{|u| [users:u]}).first
       @users.map!{ |u| User[u] }
-      if @users
+      if @users && !@existing
         @discussion = Discussion.new().save()
         @users.each{ |u| @discussion.add_user(u) }
         @discussion.add_user(this_user)
@@ -49,7 +50,10 @@ class DiscussionApp < Sinatra::Base
     @discussion = this_user.discussions_dataset.where(id:params[:id]).first
     @data = JSON.parse(request.body.read)
     @url = @data['url']
-    if @discussion && @url
+    if @discussion && @url && /\./=~@url
+      if !(@url[0..3] === "http")
+        @url = 'http://'+@url
+      end
       @link = Link.new(url:@url, date:DateTime.now, status:false, user_id:this_user.id).save
       @discussion.add_link(@link)
       halt 200
