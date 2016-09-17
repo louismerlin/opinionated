@@ -1,9 +1,5 @@
 var Discussion = {
-  controller: function(ctrl, args){
-    //return {id: m.route.param("id")}
-  },
   view: function(ctrl, args){
-    console.log(args.discussion.serial_id);
     return m('', {
       onclick: function(e){
         m.route("/discussion/" + args.serial_id)
@@ -38,7 +34,6 @@ var HomePage = {
       })
       .then(function(res) {
         this.success = 'Success!'
-        //m.route('/homepage');
       })
       .catch(function(err) {
         console.log(err);

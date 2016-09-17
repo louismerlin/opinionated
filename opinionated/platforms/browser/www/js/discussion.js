@@ -1,7 +1,4 @@
 var Link = {
-  controller: function(ctrl, args){
-    return {id: m.route.param("id")}
-  },
   view: function(ctrl, args){
     return m('',{style:"background:lightblue; border-radius:3px"}, [
       m('', [m('b', {onclick: function(e){
@@ -11,16 +8,23 @@ var Link = {
       m('p', args.link.title),
     ])
   }
-}
+};
 
 var LinkList = {
+  controller: function(){
+    ctrl = this;
+    ctrl.chats = m.request({
+        method: 'GET',
+        url: API_URL + '/chats',
+    })
+  },
   view: function(ctrl, args){
-    var links = args.links.map(function(link) {
+    var chats = ctrl.chats().map(function(link) {
       return m.component(Link, {serial_id: link.id, link: link})
     });
-    return m('', links)
+    return m('', chats);
   }
-}
+};
 
 var links = [{
 	serial_id: '1',
