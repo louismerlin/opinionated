@@ -56,4 +56,4 @@ var DiscussionPage = {
   }
 };
 
-m.mount(document.getElementById('app'), DiscussionPage);
+//m.mount(document.getElementById('app'), DiscussionPage);
