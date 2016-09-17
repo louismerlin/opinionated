@@ -9,6 +9,7 @@ require './models'
 require './helpers'
 require './users'
 require './discussions'
+require './chats'
 
 class Routes < Sinatra::Base
   get '/check' do
@@ -57,6 +58,8 @@ class Routes < Sinatra::Base
   post('/users*') { UserApp.call(env) }
   get('/discussions*') { DiscussionApp.call(env) }
   post('/discussions*') { DiscussionApp.call(env) }
+  get('/chats*') { ChatApp.call(env) }
+  post('/chast*') { ChatApp.call(env) }
 
   set :bind, '0.0.0.0'
 	use Rack::Session::Cookie, :key => 'rack.session', :path => '/', :secret => 'Opinions!!'

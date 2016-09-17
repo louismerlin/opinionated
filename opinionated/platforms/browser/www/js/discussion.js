@@ -1,4 +1,4 @@
-var Link = {
+  var Link = {
   view: function(ctrl, args){
     return m('',{style:"background:lightblue; border-radius:3px"}, [
       m('', [m('b', {onclick: function(e){
