@@ -1,26 +1,31 @@
 var Link = {
-  controller: function(ctrl, args){
-    return {id: m.route.param("id")}
-  },
   view: function(ctrl, args){
-    return m('li', [
-      m('div', {onclick: function(e){
+    return m('', {
+        onclick: function(e){
           m.route("/chat/" + args.serial_id)
-      }}, args.link.timestamp),
-      m('div', {style: "border:2px solid red"}, args.link.title),
-      m('b', args.link.sender)
-    ])
+        }},
+        m('div', args.link.timestamp),
+        m('div', {style: "border:2px solid red"}, args.link.title),
+        m('b', args.link.sender)
+      )
   }
-}
+};
 
 var LinkList = {
+  controller: function(){
+    ctrl = this;
+    ctrl.chats = m.request({
+        method: 'GET',
+        url: API_URL + '/chats',
+    })
+  },
   view: function(ctrl, args){
-    var links = args.links.map(function(link) {
+    var chats = ctrl.chats().map(function(link) {
       return m.component(Link, {serial_id: link.id, link: link})
     });
-    return m('ul', links)
+    return m('', chats);
   }
-}
+};
 
 var links = [{
 	serial_id: '1',
