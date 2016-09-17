@@ -1,11 +1,16 @@
 var Link = {
+  controller: function() {
+    this.open = function(url) {
+      window.open(url, '_system');
+    }
+  },
   view: function(ctrl, args){
     return m('',{style:"background:#c4f6ff; border-radius:3px;padding-bottom:4px;margin-bottom:8px"}, [
       m('', [m('b', {onclick: function(e){
           m.route("/chat/" /*A VOIR*/)
       }}, args.link.sender),
       m('span', ' ['+args.link.date+']')]),
-      m('', args.link.url),
+      m('a',{onclick: function() {ctrl.open(args.link.url)}, href:"#"}, args.link.url),
       m('', {style:"display:flex;justify-content:space-around;color:#101419"},[
         m('span.octicon.octicon-trashcan'),
         m('span.octicon.octicon-thumbsdown'),
@@ -27,6 +32,8 @@ var LinkList = {
         });
         ctrl.interval = setInterval(function(e) {
           console.log("hiel");
+          scrollDiv = document.getElementById("scrollDiv");
+          scrollDiv.scrollTop = scrollDiv.scrollHeight;
           m.redraw()
         }, 2000);
       //m.endComputation();
@@ -39,7 +46,7 @@ var LinkList = {
                 link: link
             })
         });
-        return m('', links);
+        return m('#scrollDiv', {style:"overflow-y: scroll"}, links);
     }
 };
 

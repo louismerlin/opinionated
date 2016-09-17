@@ -50,7 +50,7 @@ var app = {
 API_URL = 'http://172.31.6.202:8080';
 
 m.route.mode = "hash";
-m.route(document.body, "/login", {
+m.route(document.body, "/", {
     "/login": LoginPage,
     "/signup": SignUpPage,
     "/": HomePage,
@@ -58,3 +58,9 @@ m.route(document.body, "/login", {
     "/discussions": DiscussionPage,
     "/chat/:chatId": ChatPage
 });
+
+m.request({method: 'GET', url: API_URL + '/check'}).then(function(result) {
+  if (result==false) {
+    m.route("/login")
+  }
+})
