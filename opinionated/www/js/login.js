@@ -50,8 +50,7 @@ var LoginPage = {
         m('button.u-full-width', {
           onclick: ctrl.login
         }, "Log in"),
-        m('button.u-full-width', {
-          onclick: ctrl.signup
+        m('a.button.u-full-width', {href: '/#/signup'
         }, "Sign up")
       ])])
   }
@@ -63,7 +62,8 @@ var SignupPage = {
   }
 };
 
+m.route.mode = "hash";
 m.route(document.body, "/login", {
-  "/signup": SignupPage,
   "/login": LoginPage,
+  "/signup": SignupPage,
 });
