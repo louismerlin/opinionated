@@ -11,24 +11,26 @@ require './discussions'
 
 class Routes < Sinatra::Base
   post '/login' do
-    @username = params['username']
-    @password = params['password']
+    @data = JSON.parse(request.body.read)
+    @username = @data['username']
+    @password = @data['password']
     if @username && @password
       @user = User.where(username: @username).first
       if @user && BCrypt::Password.new(@user.password) == @password
         session[:logged] = @user.id
-        200
+        halt 200, 'true'.to_json
       else
-        halt 401
+        halt 401, 'Wrong password'
       end
     else
-      halt 400
+      halt 400, 'Username or password cannot be empty'
     end
   end
 
   post '/signup' do
-    @username = params['username']
-    @password = params['password']
+    @data = JSON.parse(request.body.read)
+    @username = @data['username']
+    @password = @data['password']
     if @username && @password
       if !User.where(username: @username).first
         User.new(

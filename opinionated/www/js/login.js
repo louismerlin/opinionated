@@ -63,7 +63,8 @@ var SignupPage = {
   }
 };
 
+m.route.mode = "hash";
 m.route(document.body, "/login", {
-  "/signup": SignupPage,
   "/login": LoginPage,
+  "/signup": SignupPage,
 });
