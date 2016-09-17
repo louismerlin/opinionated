@@ -17,8 +17,9 @@ class DiscussionApp < Sinatra::Base
     @data = JSON.parse(request.body.read)
     @users = @data['users']
     if @users
+      @existing = Discussion.where(@users.map{|u| User[u.to_s]}.push(this_user).map{|u| [users:u]}).first
       @users.map!{ |u| User[u] }
-      if @users
+      if @users && !@existing
         @discussion = Discussion.new().save()
         @users.each{ |u| @discussion.add_user(u) }
         @discussion.add_user(this_user)
