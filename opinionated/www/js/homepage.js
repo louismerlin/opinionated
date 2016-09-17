@@ -26,11 +26,11 @@ var DiscussionList = {
 var HomePage = {
   controller: function(){
     ctrl = this;
-    ctrl.search = function() {
+    ctrl.search = function(searchValue) {
       m.request({
-        method: 'POST',
-        url: API_URL + '/users',
-        data: { "search": ctrl.searchValue }
+        method: 'GET',
+        url: API_URL + '/users/' + searchValue,
+        data: {"search": ctrl.searchValue}
       })
       .then(function(res) {
         this.success = 'Success!'
@@ -40,15 +40,16 @@ var HomePage = {
         this.err = err;
       })
     }
-
     ctrl.searchValue = "";
-
     ctrl.discussion = {
       serial_id: "",
-      name: ""
-    }
+      name: "",
+    };
   },
   view: function(ctrl){
+    /*m.render("body", [
+        m("input", {onchange: m.withAttr("value", ctrl.searchValue), value: ctrl.searchValue})
+    ]);*/
     return m('div', {"style":"margin: 0;width:100%"},[
       m('.row', [
         m('.twelve.columns', [
@@ -56,7 +57,7 @@ var HomePage = {
             value: ctrl.searchValue,
             onchange: function(e) {
               ctrl.searchValue = e.currentTarget.value;
-              ctrl.search();
+              ctrl.search(ctrl.searchValue);
             },
             style: "height:60px"
           })

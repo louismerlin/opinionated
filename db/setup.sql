@@ -9,6 +9,12 @@ CREATE TABLE discussions (
   last_link_date date
 );
 
+CREATE TABLE chats (
+  id serial PRIMARY KEY,
+  link_id integer REFERENCES links
+);
+
+
 CREATE TABLE links (
   id serial PRIMARY KEY,
   discussion_id integer REFERENCES discussions,

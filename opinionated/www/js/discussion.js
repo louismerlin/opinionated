@@ -1,4 +1,4 @@
-var Link = {
+  var Link = {
   view: function(ctrl, args){
     return m('',{style:"background:lightblue; border-radius:3px"}, [
       m('', [m('b', {onclick: function(e){
@@ -68,11 +68,11 @@ var DiscussionPage = {
   },
   view: function(){
     return m('.container',{style:"flex-direction:column;display:flex;justify-content:flex-end;height:100%"}, [
-      m.component(LinkList, {links: links}),
-      m('div.twelve.columns', [
-        m('textarea.u-full-width'),
-        m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
-     ])
-    ])
+        m.component(LinkList, {links: links}),
+        m('div.twelve.columns', [
+          m('textarea.u-full-width'),
+          m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
+       ])
+      ])
   }
 };
