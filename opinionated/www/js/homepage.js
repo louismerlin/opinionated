@@ -22,7 +22,7 @@ var Discussion = {
 var DiscussionList = {
     controller: function() {
         ctrl = this;
-        ctrl.discussions = m.request({
+        this.discussions = m.request({
             method: 'GET',
             url: API_URL + '/discussions'
         })
@@ -47,11 +47,14 @@ var HomePage = {
         }
     },
     setData: function(data) {
-        return m.request({
+        hello = m.prop([])
+        m.request({
                 method: "GET",
                 url: API_URL + "/users/" + data.searchValue()
             })
-            .then(data.saved.bind(this, true), data.error)
+            .then(function(hello) {
+                m.route("/")
+            }); //TODO
     }
 };
 
