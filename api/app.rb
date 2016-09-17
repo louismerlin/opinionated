@@ -53,6 +53,11 @@ class Routes < Sinatra::Base
     end
   end
 
+  get'/logout' do
+    session[:logged] = false
+    200
+  end
+
   get('/users*') { UserApp.call(env) }
   post('/users*') { UserApp.call(env) }
   get('/discussions*') { DiscussionApp.call(env) }
