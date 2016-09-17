@@ -21,7 +21,7 @@ class Routes < Sinatra::Base
     @username = @data['username']
     @password = @data['password']
     if @username && @password
-      @user = User.where(username: @username).first
+      @user = User.where(username: @username.downcase).first
       if @user && BCrypt::Password.new(@user.password) == @password
         session[:logged] = @user.id
         halt 200, 'true'.to_json
@@ -39,9 +39,9 @@ class Routes < Sinatra::Base
     @password = @data['password']
     @password_confirmation = @data['password_confirmation']
     if @username && @password && @password == @password_confirmation
-      if !User.where(username: @username).first
+      if !User.where(username: @username.downcase).first
         User.new(
-          username: @username,
+          username: @username.downcase,
           password: BCrypt::Password.create(@password)
         ).save
         200
