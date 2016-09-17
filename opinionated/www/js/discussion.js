@@ -11,18 +11,24 @@ var Link = {
                 }, args.link.sender),
                 m('span', ' [' + args.link.date + ']')
             ]),
-            m('p', args.link.url),
+            m('a', {href: args.link.url}, args.link.url),
         ])
     }
 };
-
 var LinkList = {
     controller: function() {
+      //m.startComputation();
         ctrl = this;
         ctrl.links = m.request({
             method: 'GET',
             url: API_URL + '/discussions/' + m.route.param("discussionId")
-        })
+        });
+        ctrl.interval = setInterval(function(e) {
+          console.log("hiel");
+          m.redraw()
+        }, 2000);
+      //m.endComputation();
+        //m.redraw(true);
     },
     view: function(ctrl, args) {
         var links = ctrl.links().map(function(link) {
