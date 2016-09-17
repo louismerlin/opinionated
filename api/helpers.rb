@@ -8,7 +8,7 @@ module HelpersApp
   end
 
   def authorized?
-    if session[:logged] == true
+    if session[:logged] != nil
       true
     else
       false
