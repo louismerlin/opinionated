@@ -14,4 +14,10 @@ module HelpersApp
       false
     end
   end
+
+  def this_user
+    if session[:logged]
+      return User[session[:logged].to_i]
+    end
+  end
 end

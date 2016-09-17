@@ -3,6 +3,7 @@ require 'sinatra/base'
 require 'sequel'
 require 'json'
 require 'bcrypt'
+require 'date'
 
 require './models'
 require './helpers'
@@ -31,7 +32,8 @@ class Routes < Sinatra::Base
     @data = JSON.parse(request.body.read)
     @username = @data['username']
     @password = @data['password']
-    if @username && @password
+    @password_confirmation = @data['password_confirmation']
+    if @username && @password && @password == @password_confirmation
       if !User.where(username: @username).first
         User.new(
           username: @username,
@@ -47,8 +49,11 @@ class Routes < Sinatra::Base
   end
 
   get('/users*') { UserApp.call(env) }
-  get ('/discussions*') { DiscussionApp.call(env) }
+  post('/users*') { UserApp.call(env) }
+  get('/discussions*') { DiscussionApp.call(env) }
+  post('/discussions*') { DiscussionApp.call(env) }
 
   set :bind, '0.0.0.0'
+	use Rack::Session::Cookie, :key => 'rack.session', :path => '/', :secret => 'Opinions!!'
   run!
 end

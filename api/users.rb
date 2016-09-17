@@ -1,7 +1,11 @@
 class UserApp < Sinatra::Base
-  get '/users/:id' do
+  get '/users/:username' do
     protected!
-    'Hello World'.to_json
+    @user = User.where(username: params[:username]).first
+    if @user
+      return @user.id.to_json
+    end
+    halt 400
   end
 
   helpers HelpersApp

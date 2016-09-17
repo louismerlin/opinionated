@@ -5,10 +5,20 @@ CREATE TABLE users (
 );
 
 CREATE TABLE discussions (
-  id serial PRIMARY KEY
+  id serial PRIMARY KEY,
+  last_link_date date
 );
 
-CREATE TABLE users_discussions (
-  user_id integer references users,
-  discussion_id integer references discussions
+CREATE TABLE links (
+  id serial PRIMARY KEY,
+  discussion_id integer REFERENCES discussions,
+  user_id integer REFERENCES users,
+  url text NOT NULL,
+  date timestamp NOT NULL,
+  status boolean
+);
+
+CREATE TABLE discussions_users (
+  user_id integer REFERENCES users,
+  discussion_id integer REFERENCES discussions
 );
