@@ -1,43 +1,38 @@
-var Header = {
-  view: function(ctrl, args){
-    return m('h1.title', args.text)
-  }
-};
-
 var Jumbo = {
   view: function(ctrl, args){
     return m('.container.ul-max-width', [
       m('span', 'Post a link to start the conversation!')
     ])
   }
-}
-
-var LinkeeList = {
-  view: function(ctrl, args){
-    var messages = args.messages.map(function(message) {
-      return m.component(Message, {serial_id: message.id, message: message})
-    });
-    return m('ul', messages)
-  }
-}
-
-var Post = {
-  view: function(){
-    return m('div', {"style": 'position:fixed; bottom:0px; width:95%;'}, [
-      m('textarea.u-full-width'),
-      m('input.button.u-full-width', {"value": 'Post', "type": 'submit'})
-    ])
-  }
-}
+};
 
 var NewDiscussionPage = {
+  controller: function() {
+    ctrl = this;
+    ctrl.link = "";
+    ctrl.post = function(e) {
+      m.request({
+          method: 'POST',
+          url: API_URL + '/discussion',
+          data: ctrl.link
+        })
+        .then(function(res) {
+          this.success = 'Success!'
+          //m.route('/');
+        })
+        .catch(function(err) {
+          console.log(err);
+          this.err = err;
+        })
+    };
+  },
   view: function(){
-    return m('div', [
-      m.component(Header, {text: '#DiscussionName'}),
+    return m('.container', {style: "top: 40px"}, [m('h1', {style: "text-align: center"}, "Opinionated"),
       Jumbo,
-      Post
+      m('div', {"style": 'position:fixed; bottom:0px; width:90%;'}, [
+        m('textarea.u-full-width'),
+        m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
+     ])
     ])
   }
 };
-
-m.mount(document.getElementById('app'), NewDiscussionPage);

@@ -1,9 +1,3 @@
-var Header = {
-  view: function(ctrl, args){
-    return m('h1.title', args.text)
-  }
-};
-
 var Message = {
   view: function(ctrl, args){
     return m('li', [
@@ -20,15 +14,6 @@ var MessageList = {
       return m.component(Message, {serial_id: message.id, message: message})
     });
     return m('ul', messages)
-  }
-}
-
-var Post = {
-  view: function(){
-    return m('div', {"style": 'position:fixed; bottom:0px; width:95%;'}, [
-      m('textarea.u-full-width'),
-      m('input.button.u-full-width', {"value": 'Post', "type": 'submit'})
-    ])
   }
 }
 
@@ -55,13 +40,32 @@ var messages = [{
 }];
 
 var ChatPage = {
+  controller: function(){
+    ctrl = this;
+    ctrl.message = "";
+    ctrl.post = function(e) {
+      m.request({
+          method: 'POST',
+          url: API_URL + '/chat',
+          data: ctrl.message
+        })
+        .then(function(res) {
+          this.success = 'Success!'
+          //m.route('/');
+        })
+        .catch(function(err) {
+          console.log(err);
+          this.err = err;
+        })
+    };
+  },
   view: function(){
-    return m('div', [
-      m.component(Header, {text: '#LinkName'}),
+    return m('.container', {style: "top: 40px"}, [m('h1', {style: "text-align: center"}, "Opinionated"),
       m.component(MessageList, {messages: messages}),
-      Post
-    ])
+      m('div', {"style": 'position:fixed; bottom:0px; width:90%;'}, [
+        m('textarea.u-full-width'),
+        m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
+     ])
+   ])
   }
 };
-
-m.mount(document.getElementById('app'), ChatPage);
