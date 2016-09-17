@@ -51,13 +51,10 @@ API_URL = 'http://172.31.6.202:8080';
 
 m.route.mode = "hash";
 m.route(document.body, "/login", {
-  "/login": LoginPage,
-  "/signup": SignUpPage,
-  "/": HomePage,
-  "/discussions/:discussionId": DiscussionPage,
-  "/discussions": DiscussionPage,
-  "/chat/:chatId": ChatPage,
-  "/chat": ChatPage,
-  //"/newdiscussion/:id": NewDiscussionPage,
-  "/newdiscussion": NewDiscussionPage
+    "/login": LoginPage,
+    "/signup": SignUpPage,
+    "/": HomePage,
+    "/discussions/:discussionId": DiscussionPage,
+    "/discussions": DiscussionPage,
+    "/chat/:chatId": ChatPage
 });
