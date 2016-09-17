@@ -47,3 +47,12 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+m.route.mode = "hash";
+m.route(document.body, "/login", {
+  "/login": LoginPage,
+  "/signup": SignUpPage,
+  "/": HomePage,
+  "/discussion": DiscussionPage,
+  "/chat": ChatPage
+});

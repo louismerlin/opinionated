@@ -1,9 +1,3 @@
-var Header = {
-  view: function(ctrl, args){
-    return m('h1.title', args.text)
-  }
-};
-
 var Link = {
   view: function(ctrl, args){
     if(args.link.read){
@@ -47,13 +41,35 @@ var links = [{
 }];
 
 var DiscussionPage = {
+  controller: function() {
+    ctrl = this;
+    ctrl.user = {
+      username: "",
+      password: ""
+    };
+    ctrl.login = function(e) {
+      m.request({
+          method: 'POST',
+          url: API_URL + '/login',
+          data: ctrl.user
+        })
+        .then(function(res) {
+          this.success = 'Success!'
+          m.route('/');
+        })
+        .catch(function(err) {
+          console.log(err);
+          this.err = err;
+        })
+    };
+    ctrl.signup = function() {
+      m.route("/signup")
+    }
+  },
   view: function(){
-    return m('div', [
-      m.component(Header, {text: '#DiscussionName'}),
+    return m('.container', {style: "top: 40px"}, [m('h1', {style: "text-align: center"}, "Opinionated"),
       m.component(LinkList, {links: links}),
       Post
     ])
   }
 };
-
-//m.mount(document.getElementById('app'), DiscussionPage);

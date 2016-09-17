@@ -6,7 +6,6 @@ var LoginPage = {
       password: ""
     };
     ctrl.login = function(e) {
-      e.preventDefault(); // Vital!!!
       m.request({
           method: 'POST',
           url: API_URL + '/login',
@@ -34,7 +33,6 @@ var LoginPage = {
             value: ctrl.user.username,
             onchange: function(e) {
               ctrl.user.username = e.currentTarget.value;
-              console.log(ctrl.user.password);
             }
           })
         ]),
@@ -56,15 +54,3 @@ var LoginPage = {
       ])])
   }
 };
-
-var SignupPage = {
-  view: function() {
-    return m("div", 'SignUp')
-  }
-};
-
-m.route.mode = "hash";
-m.route(document.body, "/login", {
-  "/login": LoginPage,
-  "/signup": SignupPage,
-});
