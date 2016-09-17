@@ -65,10 +65,9 @@ var HomePage = {
             onchange: function(e) {
               ctrl.searchValue = e.currentTarget.value;
               ctrl.search();
-            },
-          }
-          )
-          ])
+            }
+          })
+        ])
       ]),
       m.component(DiscussionList, {discussions: discussions})
     ])
