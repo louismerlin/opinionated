@@ -2,10 +2,10 @@ var Link = {
   view: function(ctrl, args){
     return m('',{style:"background:lightblue; border-radius:3px"}, [
       m('', [m('b', {onclick: function(e){
-          m.route("/chat/" + args.serial_id)
+          m.route("/chat/" /*A VOIR*/)
       }}, args.link.sender),
-      m('span', ' ['+args.link.timestamp+']')]),
-      m('p', args.link.title),
+      m('span', ' ['+args.link.date+']')]),
+      m('p', args.link.url),
     ])
   }
 };
@@ -13,48 +13,40 @@ var Link = {
 var LinkList = {
   controller: function(){
     ctrl = this;
-    ctrl.chats = m.request({
+    ctrl.links = m.request({
         method: 'GET',
-        url: API_URL + '/chats',
+        url: API_URL + '/discussions/'+m.route.param("discussionId"),
     })
   },
   view: function(ctrl, args){
-    var chats = ctrl.chats().map(function(link) {
+    var links = ctrl.links().map(function(link) {
       return m.component(Link, {serial_id: link.id, link: link})
     });
-    return m('', chats);
+    return m('', links);
   }
 };
 
-var links = [{
-	serial_id: '1',
-	title: 'Coucou',
-  sender: 'otto-ben',
-  read: false,
-  timestamp: 'today'
-},{
-  serial_id: '2',
-	title: 'hohoho',
-  sender: 'loulou',
-  read: false,
-  timestamp: 'nooow'
-}];
-
 var DiscussionPage = {
-  controller: function() {
+    getData: function() {
+        return {url: m.prop(""), saved: m.prop(false), error: m.prop("")}
+    },
+    setData: function(data) {
+        return m.request({method: "POST", url: API_URL + "/discussions/"+m.route.param("discussionId"), data: {url: data.url()}})
+            .then(data.saved.bind(this, true), data.error)
+    }
+};
+
+DiscussionPage.controller = function() {
     ctrl = this;
-    ctrl.link = {
-      serial_id: '',
-    	title: '',
-      sender: '',
-      read: false,
-      timestamp: ''
-    };
-    ctrl.post = function(e) {
+		this.data = DiscussionPage.getData();
+		this.save = function () {
+			DiscussionPage.setData(this.data);
+		}.bind(this)
+    ctrl.post = function(url) {
       m.request({
           method: 'POST',
-          url: API_URL + '/discussion',
-          data: ctrl.link
+          url: API_URL + '/discussions/'+m.route.param("discussionId"),
+          data: {url: url}
         })
         .then(function(res) {
           this.success = 'Success!'
@@ -63,16 +55,18 @@ var DiscussionPage = {
         .catch(function(err) {
           console.log(err);
           this.err = err;
-        })
+        });
+      ctrl.url = ""
     };
-  },
-  view: function(){
+  };
+ DiscussionPage.view = function(ctrl) {
     return m('.container',{style:"flex-direction:column;display:flex;justify-content:flex-end;height:100%"}, [
-      m.component(LinkList, {links: links}),
+      m.component(LinkList),
       m('div.twelve.columns', [
-        m('textarea.u-full-width'),
-        m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
+        m('textarea.u-full-width', {
+          /*value: ctrl.url,*/
+            oninput: m.withAttr("value", ctrl.data.url)},ctrl.data.url() ),
+        m('button.u-full-width', {onclick: ctrl.save}, "Send")
      ])
     ])
-  }
-};
+ };
