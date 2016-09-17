@@ -1,13 +1,21 @@
   var Link = {
   view: function(ctrl, args){
-    return m('',{style:"background:lightblue; border-radius:3px"}, [
+    return m('',{style:"background:#c4f6ff; border-radius:3px;padding-bottom:4px;margin-bottom:8px"}, [
       m('', [m('b', {onclick: function(e){
           m.route("/chat/" /*A VOIR*/)
       }}, args.link.sender),
       m('span', ' ['+args.link.date+']')]),
-      m('p', args.link.url),
+      m('', args.link.url),
+      m('', {style:"display:flex;justify-content:space-around;color:#101419"},[
+        m('span.octicon.octicon-trashcan'),
+        m('span.octicon.octicon-thumbsdown'),
+        m('span.octicon.octicon-thumbsup'),
+        m('span.octicon.octicon-rocket[style=color:#d55672]'),
+        m('span.octicon.octicon-heart'),
+        m('span.octicon.octicon-mortar-board'),
+      ])
     ])
-  }
+    }
 };
 
 var LinkList = {

@@ -38,7 +38,8 @@ class DiscussionApp < Sinatra::Base
           id: l.id,
           url: l.url,
           date: l.date,
-          sender: l.user.username
+          sender: l.user.username,
+          read: l.reaction.read
         }
       }.to_json
     end
@@ -54,7 +55,8 @@ class DiscussionApp < Sinatra::Base
       if !(@url[0..3] === "http")
         @url = 'http://'+@url
       end
-      @link = Link.new(url:@url, date:DateTime.now, status:false, user_id:this_user.id).save
+      @link = Link.new(url:@url, date:DateTime.now, user_id:this_user.id).save
+      @link.reaction = Reaction.new(read:false,emotion:0).save
       @discussion.add_link(@link)
       halt 200
     end
