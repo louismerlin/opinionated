@@ -11,6 +11,11 @@ require './users'
 require './discussions'
 
 class Routes < Sinatra::Base
+  get '/check' do
+    protected!
+    this_user.id.to_s
+  end
+
   post '/login' do
     @data = JSON.parse(request.body.read)
     @username = @data['username']
@@ -55,5 +60,6 @@ class Routes < Sinatra::Base
 
   set :bind, '0.0.0.0'
 	use Rack::Session::Cookie, :key => 'rack.session', :path => '/', :secret => 'Opinions!!'
+  helpers HelpersApp
   run!
 end
