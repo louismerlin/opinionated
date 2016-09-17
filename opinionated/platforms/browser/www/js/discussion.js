@@ -61,16 +61,6 @@ DiscussionPage.controller = function() {
   };
  DiscussionPage.view = function(ctrl) {
     return m('.container',{style:"flex-direction:column;display:flex;justify-content:flex-end;height:100%"}, [
-<<<<<<< HEAD
-        m.component(LinkList, {links: links}),
-        m('div.twelve.columns', [
-          m('textarea.u-full-width'),
-          m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
-       ])
-      ])
-  }
-};
-=======
       m.component(LinkList),
       m('div.twelve.columns', [
         m('textarea.u-full-width', {
@@ -80,4 +70,3 @@ DiscussionPage.controller = function() {
      ])
     ])
  };
->>>>>>> e138a42cc6ebd454c4bb5ff2e61c9e6e15ecc23c

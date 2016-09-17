@@ -25,7 +25,16 @@ var DiscussionList = {
 };
 
 var HomePage = {
-  controller: function(){
+  getData: function() {
+      return {searchValue: m.prop(""), saved: m.prop(false), error: m.prop("")}
+  },
+  setData: function(data) {
+      return m.request({method: "GET", url: API_URL + "/users/" + data.searchValue()})
+          .then(data.saved.bind(this, true), data.error)
+  }
+};
+
+HomePage.controller = function(){
     ctrl = this;
     ctrl.search = function(searchValue) {
       m.request({
@@ -41,30 +50,27 @@ var HomePage = {
         this.err = err;
       })
     }
-    ctrl.searchValue = "";
+    this.data = HomePage.getData();
+    this.save = function(){
+      HomePage.setData(this.data);
+    }.bind(this);
     ctrl.discussion = {
       serial_id: "",
       name: "",
     };
-  },
-  view: function(ctrl){
-    /*m.render("body", [
-        m("input", {onchange: m.withAttr("value", ctrl.searchValue), value: ctrl.searchValue})
-    ]);*/
+  };
+
+HomePage.view = function(ctrl){
     return m('div', {"style":"margin: 0;width:100%"},[
       m('.row', [
         m('.twelve.columns', [
           m('input.u-full-width', {"type":'search', "placeholder":'Search',
-            value: ctrl.searchValue,
-            onchange: function(e) {
-              ctrl.searchValue = e.currentTarget.value;
-              ctrl.search(ctrl.searchValue);
-            },
+            oninput: m.withAttr("value", ctrl.data.searchValue),
+            onchange: ctrl.save,
             style: "height:60px"
-          })
+          }, ctrl.data.searchValue())
         ]),
       ]),
       m.component(DiscussionList)
     ])
-  }
 };
