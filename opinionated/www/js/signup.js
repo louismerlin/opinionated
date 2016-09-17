@@ -13,27 +13,24 @@ var Table = {
       ]),
       m('.12columns', [
         m('label', 'Password'),
-        m('input.u-full-width[type=text]')
+        m('input.u-full-width[type=password]')
       ]),
-      m('input.u-full-width.button', {"value": 'Submit', "type": 'submit'})
+      m('.12columns', [
+        m('label', 'Password Verification'),
+        m('input.u-full-width[type=password]')
+      ]),
+      m('input.u-full-width.button', {"value": 'Sign Up', "type": 'submit'})
     ])
   }
 };
 
-var SignUp = {
-  view: function(){
-    return m('button', 'SignUp')
-  }
-};
-
-var LoginPage = {
+var SignUpPage = {
   view: function(){
     return m('div', [
-      m.component(Header, {text: 'Login Page'}),
-			Table,
-      SignUp
+      m.component(Header, {text: 'Registration Page'}),
+			Table
     ])
   }
 };
 
-m.mount(document.getElementById('app'), LoginPage);
+m.mount(document.getElementById('app'), SignUpPage);

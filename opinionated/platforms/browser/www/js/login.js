@@ -6,7 +6,6 @@ var Header = {
 
 var Table = {
   view: function(){
-    console.log('Do we even get here ?');
     return m('.form', [
       m('.12columns', [
         m('label', 'Username'),
@@ -23,14 +22,12 @@ var Table = {
 
 var SignUp = {
   view: function(){
-    console.log('Hey hoe');
     return m('button', 'SignUp')
   }
 };
 
 var LoginPage = {
   view: function(){
-    console.log('hi');
     return m('div', [
       m.component(Header, {text: 'Login Page'}),
 			Table,
