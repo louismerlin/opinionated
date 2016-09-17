@@ -3,12 +3,12 @@ var Link = {
     return {id: m.route.param("id")}
   },
   view: function(ctrl, args){
-    return m('li', [
-      m('div', {onclick: function(e){
+    return m('',{style:"background:lightblue; border-radius:3px"}, [
+      m('', [m('b', {onclick: function(e){
           m.route("/chat/" + args.serial_id)
-      }}, args.link.timestamp),
-      m('div', {style: "border:2px solid red"}, args.link.title),
-      m('b', args.link.sender)
+      }}, args.link.sender),
+      m('span', ' ['+args.link.timestamp+']')]),
+      m('p', args.link.title),
     ])
   }
 }
@@ -18,7 +18,7 @@ var LinkList = {
     var links = args.links.map(function(link) {
       return m.component(Link, {serial_id: link.id, link: link})
     });
-    return m('ul', links)
+    return m('', links)
   }
 }
 
@@ -28,6 +28,12 @@ var links = [{
   sender: 'otto-ben',
   read: false,
   timestamp: 'today'
+},{
+  serial_id: '2',
+	title: 'hohoho',
+  sender: 'loulou',
+  read: false,
+  timestamp: 'nooow'
 }];
 
 var DiscussionPage = {
@@ -57,9 +63,9 @@ var DiscussionPage = {
     };
   },
   view: function(){
-    return m('.container', {style: "top: 40px"}, [m('h1', {style: "text-align: center"}, "Opinionated"),
+    return m('.container',{style:"flex-direction:column;display:flex;justify-content:flex-end;height:100%"}, [
       m.component(LinkList, {links: links}),
-      m('div', {"style": 'position:fixed; bottom:0px; width:95%;'}, [
+      m('div.twelve.columns', [
         m('textarea.u-full-width'),
         m('input.button.u-full-width', {"value": 'Post', "type": 'submit', onclick: ctrl.post})
      ])
