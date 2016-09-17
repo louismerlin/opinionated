@@ -53,7 +53,10 @@ m.route(document.body, "/login", {
   "/login": LoginPage,
   "/signup": SignUpPage,
   "/": HomePage,
+  "/discussion/:id": DiscussionPage,
   "/discussion": DiscussionPage,
+  "/chat/:id": ChatPage,
   "/chat": ChatPage,
+  "/newdiscussion/:id": NewDiscussionPage,
   "/newdiscussion": NewDiscussionPage
 });

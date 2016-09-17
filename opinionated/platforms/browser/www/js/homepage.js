@@ -1,34 +1,31 @@
 var Discussion = {
   controller: function(ctrl, args){
-    return {id: m.route.param("id")}
+    //return {id: m.route.param("id")}
   },
   view: function(ctrl, args){
-    return m('li', {
+    console.log(args.discussion.serial_id);
+    return m('', {
       onclick: function(e){
-        m.route("/discussion/" + args.discussion.serial_id)
-      }}, m('div', {style: "border:2px solid black"}, args.discussion.name))
+        m.route("/discussion/" + args.serial_id)
+      }}, m('div', {style: "border:1px solid grey; height:60px; font-size: 24px; padding-left: 6px; padding-top:18px; padding-right: 6px"}, [m('', {style: "position:absolute"}, args.discussion.name), m('', {style: "position:relative; width:100%;text-align: right"}, ">")]))
   }
-}
+};
 
 var DiscussionList = {
+  controller: function() {
+    ctrl = this;
+    ctrl.discussions = m.request({
+        method: 'GET',
+        url: API_URL + '/discussions'
+    })
+  },
   view: function(ctrl, args){
-    var discussions = args.discussions.map(function(discussion) {
+    var discussions = ctrl.discussions().map(function(discussion) {
       return m.component(Discussion, {serial_id: discussion.id, discussion: discussion})
     });
-    return m('ul', discussions)
+    return m('', discussions)
   }
-}
-
-var discussions = [{
-	serial_id: '1',
-	name: 'Louis Merlin'
-}, {
-	serial_id: '2',
-	name: 'Hugo Roussel '
-}, {
-	serial_id: '3',
-	name: 'Benchekroun 4 Ever'
-}];
+};
 
 var HomePage = {
   controller: function(){
@@ -56,8 +53,8 @@ var HomePage = {
       name: ""
     }
   },
-  view: function(){
-    return m('.container', {style: "top: 40px"}, [m('h1', {style: "text-align: center"}, "Opinionated"),
+  view: function(ctrl){
+    return m('div', {"style":"margin: 0;width:100%"},[
       m('.row', [
         m('.twelve.columns', [
           m('input.u-full-width', {"type":'search', "placeholder":'Search',
@@ -65,11 +62,12 @@ var HomePage = {
             onchange: function(e) {
               ctrl.searchValue = e.currentTarget.value;
               ctrl.search();
-            }
+            },
+            style: "height:60px"
           })
-        ])
+        ]),
       ]),
-      m.component(DiscussionList, {discussions: discussions})
+      m.component(DiscussionList)
     ])
   }
 };

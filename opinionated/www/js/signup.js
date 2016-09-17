@@ -58,7 +58,7 @@ var SignUpPage = {
         ]),
         m('button.u-full-width', {
           onclick: ctrl.signup
-        }, "Signup")
+        }, "Sign up")
       ])])
   }
 };

@@ -1,8 +1,11 @@
 var Link = {
+  controller: function(ctrl, args){
+    return {id: m.route.param("id")}
+  },
   view: function(ctrl, args){
     return m('li', [
       m('div', {onclick: function(e){
-          m.route("/discussion/" + args.link.serial_id)
+          m.route("/chat/" + args.serial_id)
       }}, args.link.timestamp),
       m('div', {style: "border:2px solid red"}, args.link.title),
       m('b', args.link.sender)
@@ -30,7 +33,13 @@ var links = [{
 var DiscussionPage = {
   controller: function() {
     ctrl = this;
-    ctrl.link = "";
+    ctrl.link = {
+      serial_id: '',
+    	title: '',
+      sender: '',
+      read: false,
+      timestamp: ''
+    };
     ctrl.post = function(e) {
       m.request({
           method: 'POST',
