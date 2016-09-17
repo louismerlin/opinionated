@@ -50,7 +50,10 @@ class DiscussionApp < Sinatra::Base
     @discussion = this_user.discussions_dataset.where(id:params[:id]).first
     @data = JSON.parse(request.body.read)
     @url = @data['url']
-    if @discussion && @url
+    if @discussion && @url && /\./=~@url
+      if !(@url[0..3] === "http")
+        @url = 'http://'+@url
+      end
       @link = Link.new(url:@url, date:DateTime.now, status:false, user_id:this_user.id).save
       @discussion.add_link(@link)
       halt 200
