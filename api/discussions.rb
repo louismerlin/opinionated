@@ -38,7 +38,7 @@ class DiscussionApp < Sinatra::Base
           id: l.id,
           url: l.url,
           date: l.date,
-          sender: l.user_id
+          sender: l.user.username
         }
       }.to_json
     end
