@@ -68,6 +68,9 @@ HomePage.controller = function() {
         id: "",
         name: ""
     };
+    ctrl.read = function(){
+      m.route("/readinglist");
+    }
     ctrl.logout = function(){
       m.request({methode: "GET", url: API_URL + "/logout"});
       m.route("/login");
@@ -90,6 +93,8 @@ HomePage.view = function(ctrl) {
             ]),
         ]),
         m.component(DiscussionList),
+        m('.div', {style: "height:60px"}),
+        m('span.mega-octicon.octicon-book', {onclick: ctrl.read, style: "position:absolute; bottom:5px; left:5px"}),
         m('span.mega-octicon.octicon-sign-out', {onclick: ctrl.logout, style: "position:absolute; bottom:5px; right:5px"})
     ])
 };
