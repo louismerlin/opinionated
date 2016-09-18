@@ -25,7 +25,7 @@ var ToSee = {
 var ReadList = {
     controller: function() {
         ctrl = this;
-        ctrl.tosee = m.request({method: 'GET', url: API_URL + '/readinglist'});
+        ctrl.tosee = m.request({method: 'GET', url: API_URL + '/readingList'});
         ctrl.scroll = true;
         ctrl.interval = setInterval(function(e) {
           if (ctrl.scroll) {
@@ -37,7 +37,7 @@ var ReadList = {
     },
     view: function(ctrl, args) {
         var tosee = ctrl.tosee().map(function(elem) {
-            return m.component(ToSee, {serial_id: elem.id, elem: elem})
+            return m.component(ToSee, {serial_id: elem.id, link: elem})
         });
         return m('#scrollDiv', {style:"overflow-y: scroll", onscroll:ctrl.scroll = false}, tosee);
     }
@@ -48,7 +48,7 @@ var ReadingListPage = {
       return {url: m.prop(""), saved: m.prop(false), error: m.prop("")}
   },
   setData: function(data) {
-      return m.request({method: "GET", url: API_URL + "/readinglist"})
+      return m.request({method: "GET", url: API_URL + "/readingList"})
           .then(data.saved.bind(this, true), data.error)
   }
 }
