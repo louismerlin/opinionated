@@ -54,6 +54,7 @@ m.route(document.body, "/", {
     "/login": LoginPage,
     "/signup": SignUpPage,
     "/": HomePage,
+    "/readinglist": ReadingListPage,
     "/discussions/:discussionId": DiscussionPage,
     "/discussions": DiscussionPage,
     "/chat/:chatId": ChatPage
