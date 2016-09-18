@@ -1,8 +1,22 @@
 var Link = {
+  setData: function(emotion, id) {
+    m.request({
+          method: 'POST',
+          url: API_URL + '/discussions/links/' + id,
+          data: {emotion:emotion}
+    });
+  },
   controller: function() {
     this.open = function(url) {
       window.open(url, '_system');
     }
+    this.emotionate = function(emotion, id) {
+      this.emotion = emotion;
+      this.id = id;
+      Link.setData(this.emotion);
+    }.bind(this)
+    this.emotion = "0";
+    this.id = "0";
   },
   view: function(ctrl, args){
     return m('',{style:"background:#c4f6ff; border-radius:3px;padding-bottom:4px;margin-bottom:8px"}, [
@@ -12,12 +26,12 @@ var Link = {
       m('span', ' ['+args.link.date+']')]),
       m('a',{onclick: function() {ctrl.open(args.link.url)}, href:"#"}, args.link.url),
       m('', {style:"display:flex;justify-content:space-around;color:#101419"},[
-        m('span.octicon.octicon-trashcan'),
-        m('span.octicon.octicon-thumbsdown'),
-        m('span.octicon.octicon-thumbsup'),
-        m('span.octicon.octicon-rocket[style=color:#d55672]'),
-        m('span.octicon.octicon-heart'),
-        m('span.octicon.octicon-mortar-board'),
+        m('span.octicon.octicon-trashcan', {onclick:ctrl.emotionate(1, args.link.id), style:function() {if (args.link.emotion == 1){return "color:#d55672"}}}),
+        m('span.octicon.octicon-thumbsdown', {onclick:ctrl.emotionate(2, args.link.id), style:function() {if (args.link.emotion == 2){return "color:#d55672"}}}),
+        m('span.octicon.octicon-thumbsup', {onclick:ctrl.emotionate(3, args.link.id), style:function() {if (args.link.emotion == 3){return "color:#d55672"}}}),
+        m('span.octicon.octicon-rocket', {onclick:ctrl.emotionate(4, args.link.id), style:function() {if (args.link.emotion == 4){ return "color:#d55672"}}}),
+        m('span.octicon.octicon-heart', {onclick:ctrl.emotionate(5, args.link.id), style:function() {if (args.link.emotion == 5){ return "color:#d55672"}}}),
+        m('span.octicon.octicon-mortar-board', {onclick:ctrl.emotionate(6, args.link.id), style:function() {if (args.link.emotion == 6){return "color:#d55672"}}})
       ])
     ])
     }
@@ -31,10 +45,8 @@ var LinkList = {
         });
         ctrl.scroll = true;
         ctrl.interval = setInterval(function(e) {
-          if (ctrl.scroll) {
-            scrollDiv = document.getElementById("scrollDiv");
-            scrollDiv.scrollTop = scrollDiv.scrollHeight;
-          }
+          scrollDiv = document.getElementById("scrollDiv");
+          scrollDiv.scrollTop = scrollDiv.scrollHeight;
           m.redraw()
         }, 2000);
     },

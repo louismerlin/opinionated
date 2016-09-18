@@ -34,7 +34,7 @@ var DiscussionList = {
                 discussion: discussion
             })
         });
-        return m('', discussions)
+        return m('',{style:"overflow-y: scroll"}, discussions)
     }
 };
 

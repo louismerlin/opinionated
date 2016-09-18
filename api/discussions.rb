@@ -39,7 +39,7 @@ class DiscussionApp < Sinatra::Base
           url: l.url,
           date: l.date,
           sender: l.user.username,
-          read: l.reaction.read
+          emotion: l.reaction.emotion
         }
       }.to_json
     end
@@ -58,6 +58,17 @@ class DiscussionApp < Sinatra::Base
       @link = Link.new(url:@url, date:DateTime.now, user_id:this_user.id).save
       @link.reaction = Reaction.new(read:false,emotion:0).save
       @discussion.add_link(@link)
+      halt 200
+    end
+    halt 400
+  end
+
+  post '/discussions/links/:id' do
+    protected!
+    @link = Link[params[:id].to_i]
+    @emotion = JSON.parse(request.body.read)['emotion'].to_i
+    if @link.discussion.users.include?(this_user) && @link.user!=this_user && @emotion.between?(1,6)
+      @link.reaction.update(read:true, emotion:@emotion)
       halt 200
     end
     halt 400
