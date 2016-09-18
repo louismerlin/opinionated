@@ -58,6 +58,23 @@ class Routes < Sinatra::Base
     200
   end
 
+get '/readingList' do
+    protected!
+    @links = this_user.discussions_dataset.map{|d| d.links}.flatten
+    if @links.first
+      return @links.map{|l|
+        {
+          id: l.id,
+          url: l.url,
+          date: l.date,
+          sender: l.user.username,
+          emotion: l.reaction.emotion
+        }
+      }.to_json
+    end
+    halt 400
+  end
+
   get('/users*') { UserApp.call(env) }
   post('/users*') { UserApp.call(env) }
   get('/discussions*') { DiscussionApp.call(env) }
