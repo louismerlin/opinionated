@@ -24,20 +24,19 @@ var Link = {
 };
 var LinkList = {
     controller: function() {
-      //m.startComputation();
         ctrl = this;
         ctrl.links = m.request({
             method: 'GET',
             url: API_URL + '/discussions/' + m.route.param("discussionId")
         });
+        ctrl.scroll = true;
         ctrl.interval = setInterval(function(e) {
-          console.log("hiel");
-          scrollDiv = document.getElementById("scrollDiv");
-          scrollDiv.scrollTop = scrollDiv.scrollHeight;
+          if (ctrl.scroll) {
+            scrollDiv = document.getElementById("scrollDiv");
+            scrollDiv.scrollTop = scrollDiv.scrollHeight;
+          }
           m.redraw()
         }, 2000);
-      //m.endComputation();
-        //m.redraw(true);
     },
     view: function(ctrl, args) {
         var links = ctrl.links().map(function(link) {
@@ -46,7 +45,7 @@ var LinkList = {
                 link: link
             })
         });
-        return m('#scrollDiv', {style:"overflow-y: scroll"}, links);
+        return m('#scrollDiv', {style:"overflow-y: scroll", onscroll:ctrl.scroll = false}, links);
     }
 };
 
