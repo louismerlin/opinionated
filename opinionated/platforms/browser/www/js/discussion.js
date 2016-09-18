@@ -74,13 +74,18 @@ DiscussionPage.controller = function() {
     this.data = DiscussionPage.getData();
     this.save = function() {
         DiscussionPage.setData(this.data);
-    }.bind(this)
+    }.bind(this);
+    ctrl.redirect = function(){
+      m.route("/");
+    }
 };
 
 DiscussionPage.view = function(ctrl) {
     return m('.container', {
         style: "flex-direction:column;display:flex;justify-content:flex-end;height:100%"
     }, [
+        m('span.mega-octicon.octicon-arrow-left', {onclick: ctrl.redirect, style: "position:absolute; top:5px; left:5px"}),
+        m('.div', {style: "height:60px"}),
         m.component(LinkList),
         m('div.twelve.columns', [
             m('textarea.u-full-width', {
