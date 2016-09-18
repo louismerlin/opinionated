@@ -68,6 +68,10 @@ HomePage.controller = function() {
         id: "",
         name: ""
     };
+    ctrl.logout = function(){
+      m.request({methode: "GET", url: API_URL + "/logout"});
+      m.route("/login");
+    };
 };
 
 HomePage.view = function(ctrl) {
@@ -85,6 +89,7 @@ HomePage.view = function(ctrl) {
                 }, ctrl.data.searchValue())
             ]),
         ]),
-        m.component(DiscussionList)
+        m.component(DiscussionList),
+        m('span.mega-octicon.octicon-sign-out', {onclick: ctrl.logout, style: "position:absolute; bottom:5px; right:5px"})
     ])
 };
